@@ -263,11 +263,11 @@ textarea:focus {
                 </div>
                 <div class="tip-item">
                     <span class="tip-bullet">•</span>
-                    <span class="tip-text">When typing \, /, *, **, these won't be seen in the input and output as they are special formatting characters</span>
+                    <span class="tip-text">When typing \, /, *, **,:, these won't be seen in the input and output as they are special formatting characters</span>
                 </div>             
                 <div class="tip-item">
                     <span class="tip-bullet">•</span>
-                    <span>Other special characters: .=।, ..=॥, *=ं, **=ँ,</span>
+                    <span>Other special characters: .=।, ..=॥, *=ं, **=ँ, :=ः</span>
                 </div>
                 <div class="tip-item">
                     <span class="tip-bullet">•</span>
@@ -1578,7 +1578,7 @@ should not be case sensitive except 'N=ण्/ ण , Na=ण/ णा , न / न�
                         // Ensure the segment consists only of letters (no / or hidden modifiers inside for common match)
                         let hasInvalidChar = false;
                         for (let j = i; j < wordEnd; j++) {
-                            if (conceptualInput[j] === '/' || conceptualInput[j] === '*' || conceptualInput[j] === '**') {
+                            if (conceptualInput[j] === '/' || conceptualInput[j] === '*' || conceptualInput[j] === '**' || conceptualInput[j] === ':') {
                                 hasInvalidChar = true;
                                 break;
                             }
@@ -2004,9 +2004,9 @@ should not be case sensitive except 'N=ण्/ ण , Na=ण/ णा , न / न�
                 return;
             }
 
-            // Handle typing hidden characters like '/', '*', '**', '\\'
+            // Handle typing hidden characters like '/', '*', '**', '\\', ':'
             // These characters are not visibly inserted into the textarea but affect the conceptual string.
-            if (charTyped === '/' || charTyped === '*' || charTyped === '**' || charTyped === '\\') {
+            if (charTyped === '/' || charTyped === '*' || charTyped === '**' || charTyped === '\\' || charTyped === ':') {
                 event.preventDefault();
 
                 // Determine the conceptual insertion point
@@ -2026,7 +2026,9 @@ should not be case sensitive except 'N=ण्/ ण , Na=ण/ णा , न / न�
                     }
                 } else if (charTyped === '**') {
                     hiddenModifierPoints.set(conceptualInsertionPoint, '**');
-                }
+                } else if (charTyped === ':') {
+                    hiddenModifierPoints.set(conceptualInsertionPoint, ':');
+                }   
                 
                 // No visible change to textarea, but conceptual string changes.
                 lastProcessedTextAreaValue = oldVisibleValue; // Update for next input event
